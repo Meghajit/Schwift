@@ -1,4 +1,4 @@
-#Schwift
+# Schwift
 In house app for putting and rearranging your thoughts
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
