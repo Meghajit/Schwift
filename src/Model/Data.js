@@ -2,15 +2,16 @@ const data = {
     boards : [
         {
             id: 1,
+            name: 'Science',
             items: [
                 {
-                    id: 1,
+                    id: 100,
                     header: 'Physics',
                     metadata: 'Science',
                     content: 'Kinetics, Statics and Dynamics',
                 },
                 {
-                    id: 2,
+                    id: 200,
                     header: 'Chemistry',
                     metadata: 'Science',
                     content: 'Science of chemicals',
@@ -20,15 +21,16 @@ const data = {
         },
         {
             id: 2,
+            name: 'Language',
             items: [
                 {
-                    id: 1,
+                    id: 300,
                     header: 'Spanish',
                     metadata: 'Linguistics',
                     content: 'Spanish written and spoken',
                 },
                 {
-                    id: 2,
+                    id: 400,
                     header: 'Hindi',
                     metadata: 'Linguistics',
                     content: 'Devnagri script',
@@ -36,5 +38,5 @@ const data = {
             ],
         },
     ],
-}
+};
 export default data;
