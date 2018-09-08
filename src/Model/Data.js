@@ -37,6 +37,25 @@ const data = {
                 },
             ],
         },
+        {
+            id: 3,
+            name: 'Geography',
+            items: [
+                {
+                    id: 500,
+                    header: 'Physical geography',
+                    metadata: 'Geography',
+                    content: 'The land and its contour',
+                },
+                {
+                    id: 600,
+                    header: 'Demographics',
+                    metadata: 'Geography',
+                    content: 'The people',
+                },
+
+            ],
+        },
     ],
 };
 export default data;

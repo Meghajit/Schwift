@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Grid} from 'semantic-ui-react';
+import {Button, Grid, Header} from 'semantic-ui-react';
 import {DragDropContext} from 'react-beautiful-dnd'
 import data from '../Model/Data';
 import List from './List';
@@ -9,9 +9,17 @@ class Board extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: data,
-        }
+            data: window.localStorage.getItem('schwift_board') ?
+                JSON.parse(window.localStorage.getItem('schwift_board'))
+                :
+                data,
+        };
+        console.log(this.state.data);
     }
+
+    handleSave = () => {
+        window.localStorage.setItem('schwift_board', JSON.stringify(this.state.data));
+    };
 
     reorder = (object, sourceIndex, destinationIndex) => {
         let modList = object;
@@ -32,34 +40,34 @@ class Board extends Component {
     };
 
     onDragEnd = (res) => {
-        if(!res.destination || !res.source) {
+        if (!res.destination || !res.source) {
             return;
         }
         let boards = [];
-        if (res.source.droppableId===res.destination.droppableId) {
-             const result = this.reorder(
-                _.find(this.state.data.boards, {'name':res.source.droppableId}),
+        if (res.source.droppableId === res.destination.droppableId) {
+            const result = this.reorder(
+                _.find(this.state.data.boards, {'name': res.source.droppableId}),
                 res.source.index,
                 res.destination.index
             );
             boards = this.state.data.boards;
             boards.forEach((board, index) => {
-                if(board.name === res.source.droppableId) {
+                if (board.name === res.source.droppableId) {
                     boards[index] = result;
                 }
             });
         } else {
-             const result = this.move(
-                 _.find(this.state.data.boards, {'name':res.source.droppableId}),
-                 _.find(this.state.data.boards, {'name':res.destination.droppableId}),
-                 res.source.index,
-                 res.destination.index
-             );
+            const result = this.move(
+                _.find(this.state.data.boards, {'name': res.source.droppableId}),
+                _.find(this.state.data.boards, {'name': res.destination.droppableId}),
+                res.source.index,
+                res.destination.index
+            );
             boards = this.state.data.boards;
             boards.forEach((board, index) => {
-                if(board.name === res.source.droppableId) {
+                if (board.name === res.source.droppableId) {
                     boards[index] = result.source;
-                } else if(board.name === res.destination.droppableId) {
+                } else if (board.name === res.destination.droppableId) {
                     boards[index] = result.destination;
                 }
             });
@@ -77,17 +85,26 @@ class Board extends Component {
         const {data} = this.state;
         return (
             <div>
+                <Header as='h1' textAlign='center'>Schwift</Header>
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <Grid columns='equal'>
                         {data.boards.map((board, index) => (
-                            <Grid.Column key = {index}>
-                               <List id={board.name}
-                                    items={board.items} 
+                            <Grid.Column key={index}>
+                                <List id={board.name}
+                                      items={board.items}
                                 />
                             </Grid.Column>
                         ))}
                     </Grid>
                 </DragDropContext>
+                <Button primary
+                        size='huge'
+                        onClick={this.handleSave}
+                        style={{
+                            marginLeft: '40%', marginTop: '6%',
+                        }}>
+                    Save My Schwift
+                </Button>
             </div>
         )
     }

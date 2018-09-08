@@ -9,9 +9,10 @@ const Item = (props) => {
                 <Ref innerRef={provided.innerRef}>
                     <Card {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                            header= {props.header}
-                            meta={props.metadata}
-                            description={props.content}
+                          className="board-item"
+                          header= {props.header}
+                          meta={props.metadata}
+                          description={props.content}
                     />
                 </Ref>
             )}

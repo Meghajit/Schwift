@@ -8,8 +8,9 @@ const List = (props) => {
         <Droppable droppableId={props.id}>
             {(provided) => (
                 <Ref innerRef={provided.innerRef}>
-                    <Message {...provided.droppableProps}>
-                        <Header as='h2'>{props.id}</Header>
+                    <Message {...provided.droppableProps}
+                             className="board">
+                        <Header as='h2' textAlign='center'>{props.id}</Header>
                         {props.items.map((item, index) => (
                         <Item index = {index}
                                 id = {item.id}
