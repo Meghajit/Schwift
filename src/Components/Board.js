@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Button, Grid, Header} from 'semantic-ui-react';
+import {Button, Grid, Header, Image} from 'semantic-ui-react';
 import {DragDropContext} from 'react-beautiful-dnd'
 import data from '../Model/Data';
 import List from './List';
+import myself from '../image/myself.jpg';
 import _ from 'lodash';
 
 class Board extends Component {
@@ -85,7 +86,10 @@ class Board extends Component {
         const {data} = this.state;
         return (
             <div>
-                <Header as='h1' textAlign='center'>Schwift</Header>
+                <Header as='h1' textAlign='center' style={{marginBottom: '3%'}}>
+                    Schwift
+                    <Image floated = 'right' src={myself} circular/>
+                </Header>
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <Grid columns='equal'>
                         {data.boards.map((board, index) => (
