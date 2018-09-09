@@ -22,6 +22,28 @@ class Board extends Component {
         window.localStorage.setItem('schwift_board', JSON.stringify(this.state.data));
     };
 
+    handleAddItem = (index) => {
+        const {data} = this.state;
+        const editedBoard = data.boards[index];
+        const itemsArray = data.boards[index].items;
+        editedBoard.items.push({
+            id: itemsArray.length > 0 ? itemsArray[itemsArray.length-1].id + 1 : 0,
+            header: 'Header',
+            metadata: 'Metadata',
+            content: 'Description',
+        });
+        data.boards[index] = editedBoard;
+        this.setState({data});
+    };
+
+    handleDeleteItem = (boardIndex, itemIndex) => {
+        const {data} = this.state;
+        const editedBoard = data.boards[boardIndex];
+        editedBoard.items.splice(itemIndex, 1);
+        data.boards[boardIndex] = editedBoard;
+        this.setState({data});
+    };
+
     reorder = (object, sourceIndex, destinationIndex) => {
         let modList = object;
         const [removed] = modList.items.splice(sourceIndex, 1);
@@ -88,14 +110,19 @@ class Board extends Component {
             <div>
                 <Header as='h1' textAlign='center' style={{marginBottom: '3%'}}>
                     Schwift
-                    <Image floated = 'right' src={myself} circular/>
+                    <Image floated='right' src={myself} circular/>
                 </Header>
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <Grid columns='equal'>
                         {data.boards.map((board, index) => (
                             <Grid.Column key={index}>
                                 <List id={board.name}
+                                      index={index}
                                       items={board.items}
+                                      addItem={this.handleAddItem}
+                                      deleteItem={this.handleDeleteItem}
+                                      addBoard={this.handleAddBoard}
+                                      deleteBoard={this.handleDeleteBoard}
                                 />
                             </Grid.Column>
                         ))}
