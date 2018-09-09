@@ -16,7 +16,7 @@ const List = (props) => {
                               style={{float: 'right', marginTop: '-40px', marginRight: '15px'}}
                         />
                         <Icon name='delete'
-                              onClick={() => props.deleteBoard()}
+                              onClick={props.deleteBoard}
                               style={{float: 'right', marginTop: '-40px', marginRight: '-12px'}}
                         />
                         {props.items.map((item, index) => (
@@ -27,6 +27,9 @@ const List = (props) => {
                                   metadata={item.metadata}
                                   header={item.header}
                                   deleteItem={(itemIndex) => props.deleteItem(props.index, itemIndex)}
+                                  itemHeaderChange={(e, itemIndex) => props.itemHeaderChange(e, props.index, itemIndex)}
+                                  itemMetaDataChange={(e, itemIndex) => props.itemMetaDataChange(e, props.index, itemIndex)}
+                                  itemContentChange={(e, itemIndex) => props.itemContentChange(e, props.index, itemIndex)}
                             />
                         ))}
                         {provided.placeholder}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Icon, Ref} from 'semantic-ui-react';
+import {Card, Icon, Input, Ref} from 'semantic-ui-react';
 import {Draggable} from 'react-beautiful-dnd';
 
 const Item = (props) => {
@@ -20,9 +20,24 @@ const Item = (props) => {
                                       cursor: 'default'
                                   }}
                             />
-                            <Card.Header>{props.header}</Card.Header>
-                            <Card.Meta>{props.metadata}</Card.Meta>
-                            <Card.Description>{props.content}</Card.Description>
+                            <Card.Header>
+                                <Input transparent
+                                       value={props.header}
+                                       onChange={(e) => props.itemHeaderChange(e,props.index)}
+                                />
+                            </Card.Header>
+                            <Card.Meta>
+                                <Input transparent
+                                       value={props.metadata}
+                                       onChange={(e) => props.itemMetaDataChange(e,props.index)}
+                                />
+                            </Card.Meta>
+                            <Card.Description>
+                                <Input transparent
+                                       value={props.content}
+                                       onChange={(e) => props.itemContentChange(e,props.index)}
+                                />
+                            </Card.Description>
                         </Card.Content>
                     </Card>
                 </Ref>

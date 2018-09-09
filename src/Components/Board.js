@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {Button, Grid, Header, Image} from 'semantic-ui-react';
+import {Button, Grid, Header, Icon} from 'semantic-ui-react';
 import {DragDropContext} from 'react-beautiful-dnd'
 import data from '../Model/Data';
 import List from './List';
-import myself from '../image/myself.jpg';
 import _ from 'lodash';
 
 class Board extends Component {
@@ -27,7 +26,7 @@ class Board extends Component {
         const editedBoard = data.boards[index];
         const itemsArray = data.boards[index].items;
         editedBoard.items.push({
-            id: itemsArray.length > 0 ? itemsArray[itemsArray.length-1].id + 1 : 0,
+            id: itemsArray.length > 0 ? itemsArray[itemsArray.length - 1].id + 1 : 0,
             header: 'Header',
             metadata: 'Metadata',
             content: 'Description',
@@ -44,14 +43,32 @@ class Board extends Component {
         this.setState({data});
     };
 
+    handleItemHeaderChange = (e, boardIndex, itemIndex) => {
+        const {data} = this.state;
+        data.boards[boardIndex].items[itemIndex].header = e.target.value;
+        this.setState({data});
+    };
+
+    handleItemMetaDataChange = (e, boardIndex, itemIndex) => {
+        const {data} = this.state;
+        data.boards[boardIndex].items[itemIndex].metadata = e.target.value;
+        this.setState({data});
+    };
+
+    handleItemContentChange = (e, boardIndex, itemIndex) => {
+        const {data} = this.state;
+        data.boards[boardIndex].items[itemIndex].content = e.target.value;
+        this.setState({data});
+    };
+
     handleAddBoard = () => {
-      const {data} = this.state;
-      data.boards.push({
-          id: data.boards.length > 0 ? data.boards[data.boards.length-1].id + 1 : 0,
-          name: 'My New Board',
-          items: [],
-      });
-      this.setState({data});
+        const {data} = this.state;
+        data.boards.push({
+            id: data.boards.length > 0 ? data.boards[data.boards.length - 1].id + 1 : 0,
+            name: 'My New Board',
+            items: [],
+        });
+        this.setState({data});
     };
 
     handleDeleteBoard = (index) => {
@@ -126,7 +143,7 @@ class Board extends Component {
             <div>
                 <Header as='h1' textAlign='center' style={{marginBottom: '3%'}}>
                     Schwift
-                    <Image floated='right' src={myself} circular/>
+                    <Icon  inverted color='orange' loading name='snowflake' />
                 </Header>
                 <Button.Group floated='right' style={{marginTop: '-4%', marginRight: '8%'}}>
                     <Button positive size='large'
@@ -149,6 +166,9 @@ class Board extends Component {
                                       addItem={this.handleAddItem}
                                       deleteItem={this.handleDeleteItem}
                                       deleteBoard={() => this.handleDeleteBoard(index)}
+                                      itemHeaderChange={this.handleItemHeaderChange}
+                                      itemMetaDataChange={this.handleItemMetaDataChange}
+                                      itemContentChange={this.handleItemContentChange}
                                 />
                             </Grid.Column>
                         ))}
