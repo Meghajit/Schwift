@@ -9,6 +9,7 @@ const Item = (props) => {
                 <Ref innerRef={provided.innerRef}>
                     <Card {...provided.draggableProps}
                           {...provided.dragHandleProps}
+                            fluid
                           className="board-item">
                         <Card.Content>
                             <Icon name='delete'

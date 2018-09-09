@@ -13,7 +13,11 @@ const List = (props) => {
                         <Header as='h2' textAlign='center'>{props.id}</Header>
                         <Icon name='add'
                               onClick={() => props.addItem(props.index)}
-                              style={{float: 'right', marginTop: '-40px', marginRight: '-10px'}}
+                              style={{float: 'right', marginTop: '-40px', marginRight: '15px'}}
+                        />
+                        <Icon name='delete'
+                              onClick={() => props.deleteBoard()}
+                              style={{float: 'right', marginTop: '-40px', marginRight: '-12px'}}
                         />
                         {props.items.map((item, index) => (
                             <Item index={index}

@@ -44,6 +44,22 @@ class Board extends Component {
         this.setState({data});
     };
 
+    handleAddBoard = () => {
+      const {data} = this.state;
+      data.boards.push({
+          id: data.boards.length > 0 ? data.boards[data.boards.length-1].id + 1 : 0,
+          name: 'My New Board',
+          items: [],
+      });
+      this.setState({data});
+    };
+
+    handleDeleteBoard = (index) => {
+        const {data} = this.state;
+        data.boards.splice(index, 1);
+        this.setState({data});
+    };
+
     reorder = (object, sourceIndex, destinationIndex) => {
         let modList = object;
         const [removed] = modList.items.splice(sourceIndex, 1);
@@ -112,6 +128,17 @@ class Board extends Component {
                     Schwift
                     <Image floated='right' src={myself} circular/>
                 </Header>
+                <Button.Group floated='right' style={{marginTop: '-4%', marginRight: '8%'}}>
+                    <Button positive size='large'
+                            onClick={this.handleAddBoard}>
+                        Add Board
+                    </Button>
+                    <Button color='orange'
+                            size='large'
+                            onClick={this.handleSave}>
+                        Save Schwift
+                    </Button>
+                </Button.Group>
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <Grid columns='equal'>
                         {data.boards.map((board, index) => (
@@ -121,21 +148,12 @@ class Board extends Component {
                                       items={board.items}
                                       addItem={this.handleAddItem}
                                       deleteItem={this.handleDeleteItem}
-                                      addBoard={this.handleAddBoard}
-                                      deleteBoard={this.handleDeleteBoard}
+                                      deleteBoard={() => this.handleDeleteBoard(index)}
                                 />
                             </Grid.Column>
                         ))}
                     </Grid>
                 </DragDropContext>
-                <Button primary
-                        size='huge'
-                        onClick={this.handleSave}
-                        style={{
-                            marginLeft: '40%', marginTop: '6%',
-                        }}>
-                    Save My Schwift
-                </Button>
             </div>
         )
     }
