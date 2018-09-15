@@ -169,10 +169,11 @@ class Board extends Component {
                     </Button>
                 </Button.Group>
                 <DragDropContext onDragEnd={this.onDragEnd}>
-                    <Grid columns='equal'>
+                    <Grid columns='equal' centered style={{margin:'0px'}}>
                         {data.boards.map((board, index) => (
                             <Grid.Column key={index}>
-                                <List id={board.id}
+                                <List style={{textAlign:'center'}}
+                                      id={board.id}
                                       name={board.name}
                                       index={index}
                                       items={board.items}

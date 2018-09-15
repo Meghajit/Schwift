@@ -4,7 +4,7 @@ import Board from './Components/Board';
 class App extends Component {
   render() {
     return (
-      <div className="App" style={{textAlign:'center'}}>
+      <div className="App">
         <Board />
       </div>
     );
