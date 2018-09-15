@@ -24,6 +24,12 @@ class Board extends Component {
         window.localStorage.setItem('schwift_board', JSON.stringify(this.state.data));
     };
 
+    handleBoardNameChange = (e, index) => {
+        const {data} = this.state;
+        data.boards[index].name = e.target.value;
+        this.setState({data});
+    };
+
     handleAddItem = (index) => {
         const {data} = this.state;
         const editedBoard = data.boards[index];
@@ -177,6 +183,7 @@ class Board extends Component {
                                       name={board.name}
                                       index={index}
                                       items={board.items}
+                                      boardNameChange={(e) => this.handleBoardNameChange(e, index)}
                                       addItem={() => this.handleAddItem(index)}
                                       deleteItem={(itemIndex) => this.handleDeleteItem(index, itemIndex)}
                                       deleteBoard={() => this.handleDeleteBoard(index)}

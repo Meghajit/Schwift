@@ -1,6 +1,6 @@
 import React from 'react';
 import {Droppable} from 'react-beautiful-dnd';
-import {Header, Icon, Message, Ref} from 'semantic-ui-react';
+import {Header, Icon, Input, Message, Ref} from 'semantic-ui-react';
 import Item from '../Components/Item';
 
 const List = (props) => {
@@ -10,7 +10,12 @@ const List = (props) => {
                 <Ref innerRef={provided.innerRef}>
                     <Message {...provided.droppableProps}
                              className="board">
-                        <Header as='h2' textAlign='center'>{props.name}</Header>
+                        <Header as='h2' textAlign='center'>
+                            <Input transparent
+                                   value={props.name}
+                                   onChange={props.boardNameChange}
+                            />
+                        </Header>
                         <Icon name='add'
                               onClick={props.addItem}
                               style={{float: 'right', marginTop: '-40px', marginRight: '15px'}}
