@@ -22,20 +22,23 @@ const Item = (props) => {
                             />
                             <Card.Header>
                                 <Input transparent
+                                       style={{width: '-webkit-fill-available'}}
                                        value={props.header}
-                                       onChange={(e) => props.itemHeaderChange(e,props.index)}
+                                       onChange={props.itemHeaderChange}
                                 />
                             </Card.Header>
                             <Card.Meta>
                                 <Input transparent
+                                       style={{width: '-webkit-fill-available'}}
                                        value={props.metadata}
-                                       onChange={(e) => props.itemMetaDataChange(e,props.index)}
+                                       onChange={props.itemMetaDataChange}
                                 />
                             </Card.Meta>
                             <Card.Description>
                                 <Input transparent
+                                       style={{width: '-webkit-fill-available'}}
                                        value={props.content}
-                                       onChange={(e) => props.itemContentChange(e,props.index)}
+                                       onChange={props.itemContentChange}
                                 />
                             </Card.Description>
                         </Card.Content>

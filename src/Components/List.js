@@ -5,14 +5,14 @@ import Item from '../Components/Item';
 
 const List = (props) => {
     return (
-        <Droppable droppableId={props.id}>
+        <Droppable droppableId={(props.id).toString()}>
             {(provided) => (
                 <Ref innerRef={provided.innerRef}>
                     <Message {...provided.droppableProps}
                              className="board">
-                        <Header as='h2' textAlign='center'>{props.id}</Header>
+                        <Header as='h2' textAlign='center'>{props.name}</Header>
                         <Icon name='add'
-                              onClick={() => props.addItem(props.index)}
+                              onClick={props.addItem}
                               style={{float: 'right', marginTop: '-40px', marginRight: '15px'}}
                         />
                         <Icon name='delete'
@@ -26,10 +26,10 @@ const List = (props) => {
                                   content={item.content}
                                   metadata={item.metadata}
                                   header={item.header}
-                                  deleteItem={(itemIndex) => props.deleteItem(props.index, itemIndex)}
-                                  itemHeaderChange={(e, itemIndex) => props.itemHeaderChange(e, props.index, itemIndex)}
-                                  itemMetaDataChange={(e, itemIndex) => props.itemMetaDataChange(e, props.index, itemIndex)}
-                                  itemContentChange={(e, itemIndex) => props.itemContentChange(e, props.index, itemIndex)}
+                                  deleteItem={(itemIndex) => props.deleteItem(itemIndex)}
+                                  itemHeaderChange={(e) => props.itemHeaderChange(e, index)}
+                                  itemMetaDataChange={(e) => props.itemMetaDataChange(e, index)}
+                                  itemContentChange={(e) => props.itemContentChange(e, index)}
                             />
                         ))}
                         {provided.placeholder}

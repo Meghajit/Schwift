@@ -5,6 +5,10 @@ import data from '../Model/Data';
 import List from './List';
 import _ from 'lodash';
 
+const initialState = {
+    boards: [],
+};
+
 class Board extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +18,6 @@ class Board extends Component {
                 :
                 data,
         };
-        console.log(this.state.data);
     }
 
     handleSave = () => {
@@ -24,12 +27,11 @@ class Board extends Component {
     handleAddItem = (index) => {
         const {data} = this.state;
         const editedBoard = data.boards[index];
-        const itemsArray = data.boards[index].items;
         editedBoard.items.push({
-            id: itemsArray.length > 0 ? itemsArray[itemsArray.length - 1].id + 1 : 0,
-            header: 'Header',
-            metadata: 'Metadata',
-            content: 'Description',
+            id: new Date().getTime(),
+            header: 'Header goes here',
+            metadata: 'Insert your metadata here',
+            content: 'Put your Description here',
         });
         data.boards[index] = editedBoard;
         this.setState({data});
@@ -37,25 +39,30 @@ class Board extends Component {
 
     handleDeleteItem = (boardIndex, itemIndex) => {
         const {data} = this.state;
+        if(data.boards[boardIndex].items.length===1) {
+            const editedBoard = data.boards[boardIndex];
+            editedBoard.items.splice(itemIndex, 1);
+            data.boards[boardIndex] = editedBoard;
+        }
         const editedBoard = data.boards[boardIndex];
         editedBoard.items.splice(itemIndex, 1);
         data.boards[boardIndex] = editedBoard;
         this.setState({data});
     };
 
-    handleItemHeaderChange = (e, boardIndex, itemIndex) => {
+    handleItemHeaderChange = (e, itemIndex, boardIndex) => {
         const {data} = this.state;
         data.boards[boardIndex].items[itemIndex].header = e.target.value;
         this.setState({data});
     };
 
-    handleItemMetaDataChange = (e, boardIndex, itemIndex) => {
+    handleItemMetaDataChange = (e, itemIndex, boardIndex) => {
         const {data} = this.state;
         data.boards[boardIndex].items[itemIndex].metadata = e.target.value;
         this.setState({data});
     };
 
-    handleItemContentChange = (e, boardIndex, itemIndex) => {
+    handleItemContentChange = (e, itemIndex, boardIndex) => {
         const {data} = this.state;
         data.boards[boardIndex].items[itemIndex].content = e.target.value;
         this.setState({data});
@@ -64,8 +71,8 @@ class Board extends Component {
     handleAddBoard = () => {
         const {data} = this.state;
         data.boards.push({
-            id: data.boards.length > 0 ? data.boards[data.boards.length - 1].id + 1 : 0,
-            name: 'My New Board',
+            id: new Date().getTime(),
+            name: "My New Board",
             items: [],
         });
         this.setState({data});
@@ -73,8 +80,13 @@ class Board extends Component {
 
     handleDeleteBoard = (index) => {
         const {data} = this.state;
-        data.boards.splice(index, 1);
-        this.setState({data});
+        if (data.boards.length===1) {
+            this.setState({data: initialState});
+        }
+        else {
+            data.boards.splice(index, 1);
+            this.setState({data});
+        }
     };
 
     reorder = (object, sourceIndex, destinationIndex) => {
@@ -102,28 +114,28 @@ class Board extends Component {
         let boards = [];
         if (res.source.droppableId === res.destination.droppableId) {
             const result = this.reorder(
-                _.find(this.state.data.boards, {'name': res.source.droppableId}),
+                _.find(this.state.data.boards, {'id': parseInt(res.source.droppableId, 10)}),
                 res.source.index,
                 res.destination.index
             );
             boards = this.state.data.boards;
             boards.forEach((board, index) => {
-                if (board.name === res.source.droppableId) {
+                if (board.id === res.source.droppableId) {
                     boards[index] = result;
                 }
             });
         } else {
             const result = this.move(
-                _.find(this.state.data.boards, {'name': res.source.droppableId}),
-                _.find(this.state.data.boards, {'name': res.destination.droppableId}),
+                _.find(this.state.data.boards, {'id': parseInt(res.source.droppableId, 10)}),
+                _.find(this.state.data.boards, {'id': parseInt(res.destination.droppableId, 10)}),
                 res.source.index,
                 res.destination.index
             );
             boards = this.state.data.boards;
             boards.forEach((board, index) => {
-                if (board.name === res.source.droppableId) {
+                if (board.id === res.source.droppableId) {
                     boards[index] = result.source;
-                } else if (board.name === res.destination.droppableId) {
+                } else if (board.id === res.destination.droppableId) {
                     boards[index] = result.destination;
                 }
             });
@@ -139,6 +151,7 @@ class Board extends Component {
 
     render() {
         const {data} = this.state;
+        console.log(data);
         return (
             <div>
                 <Header as='h1' textAlign='center' style={{marginBottom: '3%'}}>
@@ -160,15 +173,16 @@ class Board extends Component {
                     <Grid columns='equal'>
                         {data.boards.map((board, index) => (
                             <Grid.Column key={index}>
-                                <List id={board.name}
+                                <List id={board.id}
+                                      name={board.name}
                                       index={index}
                                       items={board.items}
-                                      addItem={this.handleAddItem}
-                                      deleteItem={this.handleDeleteItem}
+                                      addItem={() => this.handleAddItem(index)}
+                                      deleteItem={(itemIndex) => this.handleDeleteItem(index, itemIndex)}
                                       deleteBoard={() => this.handleDeleteBoard(index)}
-                                      itemHeaderChange={this.handleItemHeaderChange}
-                                      itemMetaDataChange={this.handleItemMetaDataChange}
-                                      itemContentChange={this.handleItemContentChange}
+                                      itemHeaderChange={(e, itemIndex) => this.handleItemHeaderChange(e, itemIndex, index)}
+                                      itemMetaDataChange={(e, itemIndex) => this.handleItemMetaDataChange(e, itemIndex, index)}
+                                      itemContentChange={(e, itemIndex) => this.handleItemContentChange(e, itemIndex, index)}
                                 />
                             </Grid.Column>
                         ))}
