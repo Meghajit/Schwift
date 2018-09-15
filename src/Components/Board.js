@@ -151,7 +151,6 @@ class Board extends Component {
 
     render() {
         const {data} = this.state;
-        console.log(data);
         return (
             <div>
                 <Header as='h1' textAlign='center' style={{marginBottom: '3%'}}>
